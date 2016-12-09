@@ -51,7 +51,7 @@ class PipeableIssue : Issue {
     }
     [Event[]]GetEvents() {
         $list = @()
-        $items = Invoke-RestMethod -Uri $this.events_url 
+        $items = Invoke-RestMethod -Uri $this.events_url
         foreach ($c in $items) {
             $list += [Event]$c
         }
@@ -112,7 +112,7 @@ function Get-GitIssue {
         [Parameter()]
         [PSCredential]
         [System.Management.Automation.CredentialAttribute()]
-        $Credential, 
+        $Credential,
 
         [parameter(ParameterSetName="Query")]
         [ValidateSet("open","closed","all")]
@@ -135,7 +135,7 @@ function Get-GitIssue {
 
         [Parameter(ParameterSetName="Comments", mandatory=1)]
         [Switch]
-        $Comments, 
+        $Comments,
 
         [Parameter(ParameterSetName="Events",  mandatory=1)]
         [Switch]
@@ -250,18 +250,18 @@ function Convert-ObjecttoClass {
         [String]$ClassName
     )
 
-    @" 
-class $ClassName { 
+    @"
+class $ClassName {
 $(foreach ($p in Get-Member -InputObject $InputObject -MemberType Properties |Sort-Object name)
-{ 
-    switch ($p.MemberType) { 
-        "NoteProperty" { 
-            $type = ($p.Definition -split " ")[0] 
+{
+    switch ($p.MemberType) {
+        "NoteProperty" {
+            $type = ($p.Definition -split " ")[0]
             if ($type -eq "System.Management.Automation.PSCustomObject") {
-                "`t[PSObject]`$$($p.Name);`n" 
+                "`t[PSObject]`$$($p.Name);`n"
             }
             else {
-                "`t[$type]`$$($p.Name);`n" 
+                "`t[$type]`$$($p.Name);`n"
             }
         }
     }
